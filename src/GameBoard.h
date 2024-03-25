@@ -56,7 +56,12 @@ public:
                     m_boardFuture[rowCounter][columCounter] = false;
             }
 
-        m_boardCurrent = m_boardFuture;
+        for( size_t rowCounter = 0; rowCounter < m_height; ++rowCounter )
+            for( size_t columCounter = 0; columCounter < m_width; ++columCounter )
+                m_boardCurrent[rowCounter][columCounter] = m_boardFuture[rowCounter][columCounter];
+
+        UpdateHistory();
+
     }
 
     bool** GetBoard()
@@ -67,6 +72,39 @@ public:
     void AddStartPoint( int row, int colum )
     {
         m_boardCurrent[row][colum] = true;
+    }
+
+    bool HasNextGen()
+    {
+        bool emptyFlag = true;
+
+        for( size_t rowCounter = 0; rowCounter < m_height; ++rowCounter )
+            for( size_t columCounter = 0; columCounter < m_width; ++columCounter )
+                if( m_boardCurrent[rowCounter][columCounter] )
+                    emptyFlag = false;
+
+        if( emptyFlag )
+            return false;
+
+        if( m_history.size() == 0)
+            return true;
+
+        for ( size_t counter = 0; counter < m_history.size() - 1; ++counter )
+        {
+            bool isSameFlag = true;
+
+            for( size_t rowCounter = 0; rowCounter < m_height; ++rowCounter )
+                for( size_t columCounter = 0; columCounter < m_width; ++columCounter )
+                    if( m_boardCurrent[rowCounter][columCounter] != m_history[counter][rowCounter][columCounter] )
+                        isSameFlag = false;
+
+            if( isSameFlag )
+                return false;
+
+            isSameFlag = true;
+        }
+
+        return true;
     }
 
 private:
@@ -157,9 +195,25 @@ private:
 
         return counterNeighbour;
     }
+
+    void UpdateHistory()
+    {
+        bool** buffer = new bool*[m_height];
+
+        for( size_t counter = 0; counter < m_height; ++counter )
+            buffer[counter] = new bool [m_width];
+
+        for( size_t rowCounter = 0; rowCounter < m_height; ++rowCounter )
+            for( size_t columCounter = 0; columCounter < m_width; ++columCounter )
+                buffer[rowCounter][columCounter] = m_boardCurrent[rowCounter][columCounter];
+
+        m_history.push_back( buffer );
+    }
+
 private:
     bool** m_boardCurrent;
     bool** m_boardFuture;
+    std::vector<bool**> m_history;
     int m_height;
     int m_width;
 };
