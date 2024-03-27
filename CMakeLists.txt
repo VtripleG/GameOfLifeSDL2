@@ -1,21 +1,21 @@
-cmake_minimum_required(VERSION 3.5)
-
-project(GameOfLife LANGUAGES CXX)
+project(GameOfLife)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SDL2 REQUIRED)
 
-add_executable( ${PROJECT_NAME}
+set(SOURCES
   src/main.cpp src/GameBoard.h
-  src/GameScene.h src/GameScene.cpp )
+  src/GameScene.h src/GameScene.cpp
+)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-install(TARGETS GameOfLife
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
 
 target_link_libraries(
       ${PROJECT_NAME} PRIVATE
-      SDL2::SDL2
-      SDL2::SDL2main
+      SDL2
     )

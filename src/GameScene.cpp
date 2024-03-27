@@ -4,16 +4,6 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <chrono>
-#include <SDL2/SDL.h>
-
-enum GameSpeed
-{
-    LVL1 = 0,
-    LVL2,
-    LVL3,
-    LVL4,
-    LVL5
-};
 
 GameScene::GameScene( GameBoard& gameBoard, int speedLVL) :
     m_gameBoard(gameBoard)

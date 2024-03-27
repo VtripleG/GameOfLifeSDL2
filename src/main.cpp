@@ -30,8 +30,6 @@ int main( int argc, char* argv[] )
         break;
     }
 
-    std::cout << width << " " << height << " " << speed << std::endl;
-
     GameBoard board( width, height );
 
     GameScene scene( board, speed );
