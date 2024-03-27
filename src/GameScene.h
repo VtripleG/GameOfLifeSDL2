@@ -7,15 +7,16 @@
 class GameScene
 {
 public:
-    GameScene( GameBoard& GameBoard);
+    GameScene( GameBoard& GameBoard, int speedLVL = 5 );
 
     bool Init();
 
     void Start();
 
-    void Display();
-
     void Quit();
+
+private:
+    void Display();
 
     void Pause();
 
@@ -28,4 +29,5 @@ private:
     const int m_startX = 10;
     const int m_startY = 10;
     int m_rectSize;
+    double m_frameInterval;
 };

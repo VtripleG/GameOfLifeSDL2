@@ -15,7 +15,7 @@ public:
 
     GameBoard( int width, int height )
     {
-        if( width <= MAXWIDTH && width >= MINWIDTH && height <= MAXHEIGHT && height >= MINHEIGHT )
+        if( ( width <= MAXWIDTH ) && ( width >= MINWIDTH ) && ( height <= MAXHEIGHT ) && ( height >= MINHEIGHT ) )
         {
             m_height = height;
             m_width = width;
@@ -42,6 +42,7 @@ public:
     {
         delete [] m_boardCurrent;
         delete [] m_boardFuture;
+        m_history.clear();
 
     }
 
@@ -64,7 +65,7 @@ public:
                     continue;
                 }
 
-                    m_boardFuture[rowCounter][columCounter] = false;
+                m_boardFuture[rowCounter][columCounter] = false;
             }
 
         for( size_t rowCounter = 0; rowCounter < m_height; ++rowCounter )

@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SDL2 REQUIRED)
-#include_directories(GameOfLife ${SDL2_INCLUDE_DIRS})
 
 add_executable( ${PROJECT_NAME}
   src/main.cpp src/GameBoard.h

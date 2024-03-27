@@ -6,16 +6,46 @@
 #include <chrono>
 #include <SDL2/SDL.h>
 
-GameScene::GameScene( GameBoard& gameBoard) :
+enum GameSpeed
+{
+    LVL1 = 0,
+    LVL2,
+    LVL3,
+    LVL4,
+    LVL5
+};
+
+GameScene::GameScene( GameBoard& gameBoard, int speedLVL) :
     m_gameBoard(gameBoard)
 {
+    switch( speedLVL )
+    {
+    case 1:
+        m_frameInterval = 2.0;
+        break;
+    case 2:
+        m_frameInterval = 1.5;
+        break;
+    case 3:
+        m_frameInterval = 1.0;
+        break;
+    case 4:
+        m_frameInterval = 0.75;
+        break;
+    case 5:
+        m_frameInterval = 0.5;
+        break;
+    default:
+        m_frameInterval = 1;
+        break;
+    }
 }
 
 bool GameScene::Init()
 {
     const int windowSize = 800;
 
-    if( m_gameBoard.GetHeight() >= m_gameBoard.GetWidth() )
+    if( m_gameBoard.GetHeight() <= m_gameBoard.GetWidth() )
         m_rectSize = ( windowSize - m_startX * 2 ) / m_gameBoard.GetWidth();
     else
         m_rectSize = ( windowSize - m_startY * 2 ) / m_gameBoard.GetHeight();
@@ -23,19 +53,14 @@ bool GameScene::Init()
     SDL_SetMainReady();
 
     if (SDL_Init(SDL_INIT_VIDEO))
-    {
-        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
         return false;
-    }
 
     m_window   = nullptr;
     m_renderer = nullptr;
 
     if (SDL_CreateWindowAndRenderer(windowSize, windowSize, SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS, &m_window, &m_renderer))
-    {
-        std::cerr << "Failed to create window and renderer: " << SDL_GetError() << std::endl;
         return false;
-    }
+
     SDL_SetWindowTitle(m_window, "Game of Life");
 
     Display();
@@ -94,7 +119,7 @@ void GameScene::Start()
 
         double elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(timePointFinish - timePointStart).count();
 
-        if ( elapsed < 0.5 )
+        if ( elapsed < m_frameInterval )
         {
             usleep( 10000 );
             continue;
