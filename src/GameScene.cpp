@@ -67,7 +67,7 @@ bool GameScene::Init()
 
     SDL_Event event;
 
-    while (1)
+    while ( 1 )
     {
         SDL_PollEvent(&event);
 
@@ -97,13 +97,14 @@ bool GameScene::Init()
 void GameScene::Start()
 {
     SDL_Event event;
+
     auto timePointStart = std::chrono::steady_clock::now();
 
     while ( m_gameBoard.HasNextGen() )
     {
         SDL_PollEvent( &event );
 
-        if( SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_SPACE])
+        if( SDL_GetKeyboardState( nullptr )[SDL_SCANCODE_SPACE] )
         {
             Pause();
             continue;
@@ -112,12 +113,12 @@ void GameScene::Start()
         if( event.type == SDL_QUIT )
             return;
 
-        if( SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_ESCAPE])
+        if( SDL_GetKeyboardState( nullptr )[SDL_SCANCODE_ESCAPE] )
             return;
 
         auto timePointFinish = std::chrono::steady_clock::now();
 
-        double elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(timePointFinish - timePointStart).count();
+        double elapsed = std::chrono::duration_cast< std::chrono::duration< double > >( timePointFinish - timePointStart ).count();
 
         if ( elapsed < m_frameInterval )
         {
@@ -164,8 +165,8 @@ void GameScene::Display()
 
 void GameScene::Quit()
 {
-    SDL_DestroyRenderer(m_renderer);
-    SDL_DestroyWindow(m_window);
+    SDL_DestroyRenderer( m_renderer );
+    SDL_DestroyWindow( m_window );
     SDL_Quit();
 }
 
@@ -188,12 +189,12 @@ void GameScene::Pause()
             }
             else
             {
-                SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+                SDL_SetRenderDrawColor( m_renderer, 0, 0, 0, 255 );
                 SDL_RenderDrawRect( m_renderer, &rect );
             }
         }
 
-    SDL_RenderPresent(m_renderer);
+    SDL_RenderPresent( m_renderer );
 }
 
 void GameScene::EndGame()
@@ -202,7 +203,7 @@ void GameScene::EndGame()
 
     SDL_RenderClear( m_renderer );
 
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255 );
+    SDL_SetRenderDrawColor( m_renderer, 0, 0, 0, 255 );
 
     SDL_Rect rect;
 
@@ -211,16 +212,16 @@ void GameScene::EndGame()
         {
             rect = { m_startX + m_rectSize*columCounter, m_startY + m_rectSize*rowCounter, m_rectSize, m_rectSize };
             if( m_gameBoard.GetBoard()[rowCounter][columCounter] )
-                SDL_RenderFillRect(m_renderer, &rect );
+                SDL_RenderFillRect( m_renderer, &rect );
             else
                 SDL_RenderDrawRect( m_renderer, &rect );
         }
 
-    SDL_RenderPresent(m_renderer);
+    SDL_RenderPresent( m_renderer );
 
     SDL_Event event;
 
-    while(1)
+    while( 1 )
     {
         SDL_PollEvent( &event );
 
