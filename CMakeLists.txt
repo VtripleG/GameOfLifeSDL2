@@ -8,7 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(SDL2 REQUIRED)
 #include_directories(GameOfLife ${SDL2_INCLUDE_DIRS})
 
-add_executable(GameOfLife src/main.cpp src/GameBoard.h)
+add_executable( ${PROJECT_NAME}
+  src/main.cpp src/GameBoard.h
+  src/GameScene.h src/GameScene.cpp )
 
 install(TARGETS GameOfLife
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

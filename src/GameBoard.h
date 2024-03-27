@@ -3,6 +3,11 @@
 #include <iostream>
 #include <vector>
 
+const int MAXWIDTH = 20;
+const int MAXHEIGHT = 20;
+const int MINWIDTH = 5;
+const int MINHEIGHT = 5;
+
 class GameBoard
 {
 public:
@@ -10,8 +15,14 @@ public:
 
     GameBoard( int width, int height )
     {
-        m_height = height;
-        m_width = width;
+        if( width <= MAXWIDTH && width >= MINWIDTH && height <= MAXHEIGHT && height >= MINHEIGHT )
+        {
+            m_height = height;
+            m_width = width;
+        }
+        else
+            m_height = m_width = 10;
+
         m_boardCurrent = new bool*[m_height];
 
         for( size_t counter = 0; counter < m_height; ++counter )
@@ -69,9 +80,19 @@ public:
         return m_boardCurrent;
     }
 
+    int GetWidth()
+    {
+        return m_width;
+    }
+
+    int GetHeight()
+    {
+        return m_height;
+    }
+
     void AddStartPoint( int row, int colum )
     {
-        m_boardCurrent[row][colum] = true;
+        m_boardCurrent[row][colum] = !m_boardCurrent[row][colum];
     }
 
     bool HasNextGen()
